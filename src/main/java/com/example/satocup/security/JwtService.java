@@ -1,7 +1,8 @@
 package com.example.satocup.security;
 
 
-import com.example.satocup.model.entity.User;
+import com.example.satocup.model.entity.Admin;
+import com.example.satocup.model.entity.Client;
 import com.example.satocup.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -66,13 +67,21 @@ public class JwtService {
                 .getPayload();
     }
 
-    public String generateToken(User user) {
+    public String generateToken(Client user) {
+
+
         String token = Jwts
                 .builder()
                 .subject(user.getUsername())
                 .claim("username", user.getUsername())
                 .claim("email", user.getEmail())
                 .claim("avatar", user.getAvatar())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
+                .claim("phoneNumber", user.getPhoneNumber())
+                .claim("address", user.getAddress())
+                .claim("money", user.getMoney())
+                .claim("clientId", user.getClientId())
                 .issuer(user.getAuthorities().toString().substring(1, user.getAuthorities().toString().length() - 1))
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
@@ -80,8 +89,23 @@ public class JwtService {
                 .compact();
         return token;
     }
+    public String generateTokenAdmin(Admin admin) {
+        String token = Jwts
+                .builder()
+                .subject(admin.getUsername())
+                .claim("username", admin.getUsername())
+                .claim("email", admin.getEmail())
+                .claim("avatar", admin.getAvatar())
+                .issuer(admin.getAuthorities().toString().substring(1, admin.getAuthorities().toString().length() - 1))
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
+                .signWith(getSigninKey())
+                .compact();
+        return token;
+    }
 
-    private SecretKey getSigninKey() {
+
+        private SecretKey getSigninKey() {
         byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
