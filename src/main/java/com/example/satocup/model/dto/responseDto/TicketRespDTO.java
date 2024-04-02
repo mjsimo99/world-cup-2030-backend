@@ -18,9 +18,11 @@ public class TicketRespDTO {
     @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
 
-    @NotNull(message = "Client ID cannot be null")
     private ClientDTO client;
 
-    @NotNull(message = "Match ID cannot be null")
-    private MatchDTO match;
+    private MatchRespDTO match;
+
+    @Min(value = 0, message = "Total price cannot be negative")
+    private double totalPrice;
+
 }
