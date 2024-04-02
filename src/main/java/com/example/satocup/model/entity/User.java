@@ -16,17 +16,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @MappedSuperclass
 public abstract class User implements UserDetails{
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     @NotBlank(message = "Username cannot be blank")
     protected String username;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be blank")
     protected String password;
-    @Column(name = "email")
+    @Column(name = "email",unique = true, nullable = false)
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Email should be valid")
     protected String email;
-    @Column(name = "avatar")
+    @Column(name = "avatar", nullable = false)
     @NotBlank(message = "Avatar cannot be blank")
     protected String avatar;
 
