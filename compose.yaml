@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    image: 'satocup-img'
+    build:
+      context: .
+    container_name: satocup
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/satocup
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - '8080:8080'
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - '5432:5432'
+    volumes:
+      - './init.sql:/docker-entrypoint-initdb.d/init.sql'
