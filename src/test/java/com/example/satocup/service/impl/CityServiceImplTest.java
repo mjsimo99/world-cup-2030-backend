@@ -87,6 +87,17 @@ class CityServiceImplTest {
         verify(modelMapper).map(city, CityDTO.class);
     }
 
+    @Test
+    void createCityWithInvalidCityDTO() {
+        ConstraintViolation<CityDTO> violation = mock(ConstraintViolation.class);
+        when(validator.validate(cityDTO)).thenReturn(Collections.singleton(violation));
+
+        assertThrows(RuntimeException.class, () -> cityService.createCity(cityDTO));
+
+        verify(validator).validate(cityDTO);
+    }
+
+
 
 
 }
