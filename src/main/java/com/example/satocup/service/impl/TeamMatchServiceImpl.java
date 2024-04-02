@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,13 +35,13 @@ public class TeamMatchServiceImpl implements TeamMatchService {
 
     @Override
     public List<TeamMatchRespDTO> getAllTeamMatches() {
+        if (teamService.getAllTeams().isEmpty()) {
+            return Collections.emptyList();
+        }
+        if (matchService.getAllMatches().isEmpty()) {
+            return Collections.emptyList();
+        }
         try {
-            if (teamService.getAllTeams().isEmpty()) {
-                throw new RuntimeException("No teams found");
-            }
-            if (matchService.getAllMatches().isEmpty()) {
-                throw new RuntimeException("No matches found");
-            }
             List<TeamMatch> teamMatches = teamMatchRepository.findAll();
             return teamMatches.stream()
                     .map(teamMatch -> modelMapper.map(teamMatch, TeamMatchRespDTO.class))
@@ -81,8 +82,8 @@ public class TeamMatchServiceImpl implements TeamMatchService {
         TeamMatch teamMatch = teamMatchRepository.findById(teamMatchId)
                 .orElseThrow(() -> new RuntimeException("Team match not found with ID: " + teamMatchId));
         if (teamMatch != null) {
-            teamMatch.setTime(String.valueOf(teamMatchDTO.getTime()));
-            teamMatch.setDate(String.valueOf(teamMatchDTO.getDate()));
+            teamMatch.setTime((teamMatchDTO.getTime()));
+            teamMatch.setDate((teamMatchDTO.getDate()));
             teamMatch.setTeamsName(teamMatchDTO.getTeamsName());
 
             teamMatch = teamMatchRepository.save(teamMatch);
