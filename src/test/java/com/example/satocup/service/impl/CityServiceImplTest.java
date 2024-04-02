@@ -71,6 +71,22 @@ class CityServiceImplTest {
         verify(modelMapper).map(city, CityDTO.class);
     }
 
+    @Test
+    void createCity() {
+        when(validator.validate(cityDTO)).thenReturn(Collections.emptySet());
+        when(modelMapper.map(cityDTO, City.class)).thenReturn(city);
+        when(cityRepository.save(city)).thenReturn(city);
+        when(modelMapper.map(city, CityDTO.class)).thenReturn(cityDTO);
+
+        CityDTO result = cityService.createCity(cityDTO);
+
+        assertEquals(cityDTO, result);
+        verify(validator).validate(cityDTO);
+        verify(modelMapper).map(cityDTO, City.class);
+        verify(cityRepository).save(city);
+        verify(modelMapper).map(city, CityDTO.class);
+    }
+
 
 
 }
