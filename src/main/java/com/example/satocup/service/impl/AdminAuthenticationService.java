@@ -46,7 +46,7 @@ public class AdminAuthenticationService {
                 )
         );
 
-        String jwt = jwtService.generateToken(admin);
+        String jwt = jwtService.generateTokenAdmin(admin);
         revokeAllTokenByAdmin(admin);
         saveAdminToken(jwt, admin);
 
@@ -84,10 +84,11 @@ public class AdminAuthenticationService {
         admin.setUsername(request.getUsername());
         admin.setPassword(passwordEncoder.encode(request.getPassword()));
         admin.setEmail(request.getEmail());
+        admin.setAvatar(request.getAvatar());
 
         admin = adminRepository.save(admin);
 
-        String jwt = jwtService.generateToken(admin);
+        String jwt = jwtService.generateTokenAdmin(admin);
 
         saveAdminToken(jwt, admin);
 

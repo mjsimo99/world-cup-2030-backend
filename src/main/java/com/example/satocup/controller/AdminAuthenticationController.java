@@ -18,14 +18,12 @@ public class AdminAuthenticationController {
     public AdminAuthenticationController(AdminAuthenticationService adminAuthService) {
         this.adminAuthService = adminAuthService;
     }
-    @PreAuthorize("permitAll()")
     @PostMapping("/admin/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody Admin request
     ) {
         return ResponseEntity.ok(adminAuthService.register(request));
     }
-    @PreAuthorize("permitAll()")
 
     @PostMapping("/admin/login")
     public ResponseEntity<AuthenticationResponse> login(
