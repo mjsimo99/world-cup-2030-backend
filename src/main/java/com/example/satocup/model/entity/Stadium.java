@@ -1,10 +1,7 @@
 package com.example.satocup.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,15 +17,15 @@ public class Stadium {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Stadium ID cannot be null")
     private Long stadiumId;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 50, unique = true)
     @NotBlank(message = "Stadium name cannot be blank")
     private String name;
 
     @Column(name = "capacity")
     @Positive(message = "Capacity must be a positive number")
+    @Min(value = 20000, message = "Capacity must be at least 20,000")
     private int capacity;
 
     @Column(name = "location")
@@ -38,7 +35,6 @@ public class Stadium {
 
     @ManyToOne
     @JoinColumn(name = "cityId")
-    @NotNull(message = "City ID cannot be null")
     private City city;
 
     @OneToMany(mappedBy = "stadium", cascade = CascadeType.ALL, orphanRemoval = true)
