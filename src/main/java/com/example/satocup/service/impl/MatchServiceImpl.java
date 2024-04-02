@@ -4,7 +4,9 @@ package com.example.satocup.service.impl;
 import com.example.satocup.model.dto.MatchDTO;
 import com.example.satocup.model.dto.responseDto.MatchRespDTO;
 import com.example.satocup.model.entity.Match;
+import com.example.satocup.model.entity.Stadium;
 import com.example.satocup.repository.MatchRepository;
+import com.example.satocup.repository.StadiumRepository;
 import com.example.satocup.service.MatchService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
@@ -21,11 +23,13 @@ public class MatchServiceImpl implements MatchService {
 
     private final MatchRepository matchRepository;
     private final ModelMapper modelMapper;
+    private final StadiumRepository stadiumRepository;
 
     @Autowired
-    public MatchServiceImpl(MatchRepository matchRepository, ModelMapper modelMapper) {
+    public MatchServiceImpl(MatchRepository matchRepository, ModelMapper modelMapper, StadiumRepository stadiumRepository) {
         this.matchRepository = matchRepository;
         this.modelMapper = modelMapper;
+        this.stadiumRepository = stadiumRepository;
     }
 
     @Override
@@ -41,11 +45,11 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public MatchDTO getMatchById(Long matchId) {
+    public MatchRespDTO getMatchById(Long matchId) {
         try {
             Match match = matchRepository.findById(matchId)
                     .orElseThrow(() -> new NotFoundException("Match not found with ID: " + matchId));
-            return modelMapper.map(match, MatchDTO.class);
+            return modelMapper.map(match, MatchRespDTO.class);
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {
@@ -69,6 +73,16 @@ public class MatchServiceImpl implements MatchService {
         try {
             Match existingMatch = matchRepository.findById(matchId)
                     .orElseThrow(() -> new NotFoundException("Match not found with ID: " + matchId));
+
+            Long stadiumId = matchDTO.getStadiumId();
+            Stadium stadium = null;
+            if (stadiumId != null) {
+                stadium = stadiumRepository.findById(stadiumId)
+                        .orElseThrow(() -> new NotFoundException("Stadium not found with ID: " + stadiumId));
+            }
+
+            existingMatch.setStadium(stadium);
+
             modelMapper.map(matchDTO, existingMatch);
             existingMatch.setMatchId(matchId);
             existingMatch.setName(matchDTO.getName());

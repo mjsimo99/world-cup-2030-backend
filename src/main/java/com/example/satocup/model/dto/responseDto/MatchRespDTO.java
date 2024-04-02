@@ -3,6 +3,7 @@ package com.example.satocup.model.dto.responseDto;
 import com.example.satocup.model.dto.StadiumDTO;
 import com.example.satocup.model.dto.TeamDTO;
 import com.example.satocup.model.dto.TeamMatchDTO;
+import com.example.satocup.model.dto.compositionDto.TeamMatchCompRespDTO;
 import com.example.satocup.model.entity.TeamMatch;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Future;
@@ -20,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatchRespDTO {
-    @NotNull(message = "Match ID cannot be null")
     private Long matchId;
 
     @NotNull(message = "Date cannot be null")
@@ -39,8 +39,9 @@ public class MatchRespDTO {
     @Min(value = 0, message = "Ticket available count cannot be negative")
     private int ticketAvailable;
 
-    @NotNull(message = "Stadium ID cannot be null")
-    private StadiumDTO stadium;
+    private StadiumRespDTO stadium;
+
+    List<TeamMatchCompRespDTO> teamMatches;
 
 
 

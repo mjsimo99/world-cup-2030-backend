@@ -1,4 +1,3 @@
-// MatchController.java
 package com.example.satocup.controller;
 
 import com.example.satocup.model.dto.MatchDTO;
@@ -31,8 +30,8 @@ public class MatchController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MatchDTO> getMatchById(@PathVariable("id") Long matchId) {
-        MatchDTO matchDTO = matchService.getMatchById(matchId);
+    public ResponseEntity<MatchRespDTO> getMatchById(@PathVariable("id") Long matchId) {
+        MatchRespDTO matchDTO = matchService.getMatchById(matchId);
         return new ResponseEntity<>(matchDTO, HttpStatus.OK);
     }
 

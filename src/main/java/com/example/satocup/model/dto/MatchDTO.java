@@ -17,29 +17,24 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class MatchDTO {
 
-    @NotNull(message = "Match ID cannot be null")
     private Long matchId;
 
-    @NotNull(message = "Date cannot be null")
-    @Future(message = "Date must be in the future")
-    private LocalDate date;
 
     @Column(name = "name")
     private String name;
 
-    @NotNull(message = "Time cannot be null")
-    private LocalTime time;
-
-    @Min(value = 0, message = "Ticket price cannot be negative")
+    @PositiveOrZero(message = "Ticket price cannot be negative")
+    @Min(value = 0, message = "Ticket price must be at least 0")
+    @Max(value = 100, message = "Ticket price must be at most 100")
     private int ticketPrice;
 
-    @Min(value = 0, message = "Ticket available count cannot be negative")
+    @PositiveOrZero(message = "Ticket available count cannot be negative")
+    @Min(value = 0, message = "Ticket available count must be at least 0")
+    @Max(value = 999999, message = "Ticket available count must be at most 999999")
     private int ticketAvailable;
 
-    @NotNull(message = "Stadium ID cannot be null")
     private Long stadiumId;
 
-    @NotNull(message = "Team ID cannot be null")
     private Long teamId;
 
 

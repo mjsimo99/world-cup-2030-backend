@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MatchService {
     List<MatchRespDTO> getAllMatches();
-    MatchDTO getMatchById(Long matchId);
+    MatchRespDTO getMatchById(Long matchId);
     MatchDTO createMatch(MatchDTO matchDTO);
     MatchDTO updateMatch(Long matchId, MatchDTO matchDTO);
     void deleteMatch(Long matchId);
