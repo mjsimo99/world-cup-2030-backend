@@ -1,9 +1,7 @@
 package com.example.satocup.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,24 +18,27 @@ import java.util.List;
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Match ID cannot be null")
     private Long matchId;
 
 
     @Column(name = "ticketPrice")
-    @Min(value = 0, message = "Ticket price cannot be negative")
+    @PositiveOrZero(message = "Ticket price cannot be negative")
+    @Min(value = 0, message = "Ticket price must be at least 0")
+    @Max(value = 100, message = "Ticket price must be at most 100")
     private int ticketPrice;
 
     @Column(name = "ticketAvailable")
-    @Min(value = 0, message = "Ticket available count cannot be negative")
+    @PositiveOrZero(message = "Ticket available count cannot be negative")
+    @Min(value = 0, message = "Ticket available count must be at least 0")
+    @Max(value = 999999, message = "Ticket available count must be at most 999999")
     private int ticketAvailable;
 
     @Column(name = "name")
     private String name;
 
+
     @ManyToOne
     @JoinColumn(name = "stadiumId")
-    @NotNull(message = "Stadium ID cannot be null")
     private Stadium stadium;
 
 
@@ -45,7 +46,7 @@ public class Match {
     @OneToMany
     private List<Ticket> tickets;
 
-    @OneToMany
+    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
     private List<TeamMatch> teamMatches;
 
 }
