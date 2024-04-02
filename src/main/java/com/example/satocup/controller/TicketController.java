@@ -53,4 +53,9 @@ public class TicketController {
         ticketService.deleteTicket(ticketId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/clients/{clientId}")
+    public ResponseEntity<List<TicketRespDTO>> getTicketsByClientId(@PathVariable Long clientId) {
+        List<TicketRespDTO> tickets = ticketService.getTicketsByClientId(clientId);
+        return new ResponseEntity<>(tickets, HttpStatus.OK);
+    }
 }
