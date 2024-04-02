@@ -104,5 +104,33 @@ class TicketServiceImplTest {
     }
 
 
+    @Test
+    void createTicket() {
+        Match match = new Match();
+        match.setMatchId(1L);
+        match.setTicketAvailable(10);
+        Client client = new Client();
+        client.setClientId(1L);
+        TicketDTO ticketDTO = new TicketDTO();
+        ticketDTO.setMatchId(1L);
+        ticketDTO.setClientId(1L);
+        ticketDTO.setQuantity(2);
+
+        when(matchRepository.findById(1L)).thenReturn(Optional.of(match));
+        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+        when(modelMapper.map(ticketDTO, Ticket.class)).thenReturn(ticket);
+        when(ticketRepository.save(ticket)).thenReturn(ticket);
+        when(modelMapper.map(ticket, TicketDTO.class)).thenReturn(ticketDTO);
+
+        TicketDTO result = ticketService.createTicket(ticketDTO);
+
+        assertEquals(ticketDTO, result);
+        verify(matchRepository).findById(1L);
+        verify(clientRepository).findById(1L);
+        verify(modelMapper).map(ticketDTO, Ticket.class);
+        verify(ticketRepository).save(ticket);
+        verify(modelMapper).map(ticket, TicketDTO.class);
+
+    }
 
 }
