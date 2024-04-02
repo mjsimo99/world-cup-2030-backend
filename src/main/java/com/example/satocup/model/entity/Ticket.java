@@ -1,6 +1,7 @@
 package com.example.satocup.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -14,20 +15,28 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Ticket ID cannot be null")
     private Long ticketId;
 
     @Column(name = "quantity")
     @Min(value = 1, message = "Quantity must be at least 1")
+    @Max(value = 4, message = "Quantity must be at most 4")
     private int quantity;
+
+    @Column(name = "totalPrice")
+    @Min(value = 0, message = "Total price cannot be negative")
+    private Double totalPrice;
+
+
 
     @ManyToOne
     @JoinColumn(name = "clientId")
-    @NotNull(message = "Client ID cannot be null")
     private Client client;
+
+
 
     @ManyToOne
     @JoinColumn(name = "matchId")
-    @NotNull(message = "Match ID cannot be null")
     private Match match;
+
+
 }
