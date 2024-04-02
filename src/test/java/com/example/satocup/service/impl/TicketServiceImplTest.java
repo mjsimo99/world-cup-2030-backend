@@ -91,6 +91,18 @@ class TicketServiceImplTest {
         verify(ticketRepository).findAll();
         verify(modelMapper).map(ticket, TicketRespDTO.class);
     }
+    @Test
+    void getTicketById() {
+        when(ticketRepository.findById(1L)).thenReturn(java.util.Optional.of(ticket));
+        when(modelMapper.map(ticket, TicketDTO.class)).thenReturn(ticketDTO);
+
+        TicketDTO result = ticketService.getTicketById(1L);
+
+        assertEquals(ticketDTO, result);
+        verify(ticketRepository).findById(1L);
+        verify(modelMapper).map(ticket, TicketDTO.class);
+    }
+
 
 
 }
