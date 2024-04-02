@@ -14,13 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeamRespDTO {
-    @NotNull(message = "Team ID cannot be null")
     private Long teamId;
-
+/*
     @NotBlank(message = "Team name cannot be blank")
     @Size(max = 100, message = "Team name must be less than or equal to 100 characters")
     private String name;
 
+
+ */
     @NotBlank(message = "Logo cannot be blank")
     private String logo;
 
