@@ -5,12 +5,16 @@ import com.example.satocup.model.entity.City;
 import com.example.satocup.repository.CityRepository;
 import com.example.satocup.service.CityService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import jakarta.ws.rs.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,13 +22,17 @@ import java.util.stream.Collectors;
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
+    private final Validator validator; // Inject Validator
+
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CityServiceImpl(CityRepository cityRepository, ModelMapper modelMapper) {
+    public CityServiceImpl(CityRepository cityRepository, ModelMapper modelMapper, Validator validator) {
         this.cityRepository = cityRepository;
         this.modelMapper = modelMapper;
+        this.validator = validator;
     }
+
 
     @Override
     public List<CityDTO> getAllCities() {
@@ -54,14 +62,21 @@ public class CityServiceImpl implements CityService {
     @Override
     public CityDTO createCity(CityDTO cityDTO) {
         try {
+            // Perform validation
+            Set<ConstraintViolation<CityDTO>> violations = validator.validate(cityDTO);
+            if (!violations.isEmpty()) {
+                throw new ConstraintViolationException("CityDTO validation failed", violations);
+            }
+
             City city = modelMapper.map(cityDTO, City.class);
             city = cityRepository.save(city);
             return modelMapper.map(city, CityDTO.class);
+        } catch (ConstraintViolationException e) {
+            throw new RuntimeException("Failed to create city due to validation errors: " + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException("Failed to create city: " + e.getMessage());
         }
     }
-
     @Override
     public CityDTO updateCity(Long cityId, CityDTO cityDTO) {
         try {

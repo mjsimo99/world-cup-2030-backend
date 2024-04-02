@@ -15,5 +15,6 @@ public class CityDTO {
 
     @NotBlank(message = "City name is required")
     @Size(max = 50, message = "City name must be less than or equal to 50 characters")
+    @NotNull(message = "City name cannot be null")
     private String name;
 }

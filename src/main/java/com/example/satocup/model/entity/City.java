@@ -21,8 +21,9 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cityId;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 50, unique = true)
     @NotBlank(message = "City name is required")
+    @NotNull(message = "City name cannot be null")
     @Size(max = 50, message = "City name must be less than or equal to 50 characters")
     private String name;
 
