@@ -34,32 +34,34 @@ public class Client extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "clientId")
-    @NotNull(message = "Client ID cannot be blank")
     private Long clientId;
 
-    @Column(name = "firstName")
+    @Column(name = "firstName",nullable = false)
     @NotBlank(message = "First name is required")
     @Size(max = 50, message = "First name must be less than or equal to 50 characters")
     protected String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "lastName",nullable = false)
     @NotBlank(message = "Last name is required")
     @Size(max = 50, message = "Last name must be less than or equal to 50 characters")
     protected String lastName;
 
-    @Column(name = "dateOfBirth")
+    @Column(name = "dateOfBirth",nullable = false)
     @NotBlank(message = "Date of birth is required")
     protected String dateOfBirth;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phoneNumber",unique = true,nullable = false)
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
     protected String phoneNumber;
 
-    @Column(name = "address")
+    @Column(name = "address",nullable = false)
     @NotBlank(message = "Address is required")
     @Size(max = 100, message = "Address must be less than or equal to 100 characters")
     protected String address;
+
+    @Column(name = "money")
+    private double money;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;

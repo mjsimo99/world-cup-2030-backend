@@ -88,6 +88,7 @@ public class ClientAuthenticationService {
         client.setAddress(request.getAddress());
         client.setDateOfBirth(request.getDateOfBirth());
         client.setAvatar(request.getAvatar())  ;
+        client.setMoney(Double.parseDouble("1000.0"));
 
         String jwt = jwtService.generateToken(client);
         client = clientRepository.save(client);

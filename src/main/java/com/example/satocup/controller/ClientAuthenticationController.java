@@ -3,6 +3,7 @@ package com.example.satocup.controller;
 import com.example.satocup.model.entity.Client;
 import com.example.satocup.model.security.AuthenticationResponse;
 import com.example.satocup.service.impl.ClientAuthenticationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +24,7 @@ public class ClientAuthenticationController {
     @PreAuthorize("permitAll()")
     @PostMapping("/client/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody Client request
+            @Valid @RequestBody Client request
     ) {
         return ResponseEntity.ok(clientAuthService.register(request));
     }
@@ -31,13 +32,8 @@ public class ClientAuthenticationController {
     @PreAuthorize("permitAll()")
     @PostMapping("/client/login")
     public ResponseEntity<AuthenticationResponse> login(
-            @RequestBody Client request
+             @RequestBody Client request
     ) {
         return ResponseEntity.ok(clientAuthService.authenticate(request));
     }
-
-
-
-
-
 }
