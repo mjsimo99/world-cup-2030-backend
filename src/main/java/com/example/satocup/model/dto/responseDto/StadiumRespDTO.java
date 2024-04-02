@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StadiumRespDTO {
-    @NotNull(message = "Stadium ID cannot be null")
     private Long stadiumId;
 
     @NotBlank(message = "Stadium name cannot be blank")
@@ -28,7 +27,6 @@ public class StadiumRespDTO {
     @Size(max = 100, message = "Location must be less than or equal to 100 characters")
     private String location;
 
-    @NotNull(message = "City ID cannot be null")
     private CityDTO city;
 
     //private List<MatchRespDTO> matches;

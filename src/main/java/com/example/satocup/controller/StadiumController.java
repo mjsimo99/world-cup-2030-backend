@@ -1,4 +1,3 @@
-// StadiumController.java
 package com.example.satocup.controller;
 
 import com.example.satocup.model.dto.StadiumDTO;

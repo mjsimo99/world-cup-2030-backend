@@ -78,8 +78,12 @@ public class StadiumServiceImpl implements StadiumService {
             existingStadium.setCapacity(stadiumDTO.getCapacity());
             existingStadium.setLocation(stadiumDTO.getLocation());
 
-            City city = cityRepository.findById(stadiumDTO.getCityId())
-                    .orElseThrow(() -> new NotFoundException("City not found with ID: " + stadiumDTO.getCityId()));
+            Long cityId = stadiumDTO.getCityId();
+            City city = null;
+            if (cityId != null) {
+                city = cityRepository.findById(cityId)
+                        .orElseThrow(() -> new NotFoundException("City not found with ID: " + cityId));
+            }
             existingStadium.setCity(city);
 
             existingStadium = stadiumRepository.save(existingStadium);
