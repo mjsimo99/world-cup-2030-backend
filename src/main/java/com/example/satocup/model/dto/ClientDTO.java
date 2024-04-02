@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClientDTO extends UserDTO {
 
-    @NotNull(message = "Client ID cannot be blank")
     private Long clientId;
 
     @NotBlank(message = "First name is required")
@@ -32,4 +31,6 @@ public class ClientDTO extends UserDTO {
     @NotBlank(message = "Address is required")
     @Size(max = 100, message = "Address must be less than or equal to 100 characters")
     private String address;
+
+    private double money;
 }

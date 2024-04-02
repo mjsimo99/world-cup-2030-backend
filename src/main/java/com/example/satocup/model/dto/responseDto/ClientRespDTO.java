@@ -38,5 +38,8 @@ public class ClientRespDTO {
     @Size(max = 100, message = "Address must be less than or equal to 100 characters")
     private String address;
 
+    @NotNull(message = "Money cannot be null")
+    private double money;
+
     private List<TicketDTO> tickets;
 }
