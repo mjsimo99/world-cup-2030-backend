@@ -59,6 +59,17 @@ class CityServiceImplTest {
         verify(modelMapper).map(city, CityDTO.class);
     }
 
+    @Test
+    void getCityById() {
+        when(cityRepository.findById(1L)).thenReturn(java.util.Optional.of(city));
+        when(modelMapper.map(city, CityDTO.class)).thenReturn(cityDTO);
+
+        CityDTO result = cityService.getCityById(1L);
+
+        assertEquals(cityDTO, result);
+        verify(cityRepository).findById(1L);
+        verify(modelMapper).map(city, CityDTO.class);
+    }
 
 
 
