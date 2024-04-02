@@ -17,12 +17,13 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Team ID cannot be null")
     private Long teamId;
-
+/*
     @NotBlank(message = "Team name cannot be blank")
     @Size(max = 100, message = "Team name must be less than or equal to 100 characters")    private String name;
 
+
+ */
     @Column(name = "logo")
     @NotBlank(message = "Logo cannot be blank")
     private String logo;
@@ -35,6 +36,7 @@ public class Team {
     @NotBlank(message = "Coach cannot be blank")
     private String coach;
 
-    @OneToMany
-    private List<Match> matches;
+
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
+    private List<TeamMatch> teamMatches;
 }

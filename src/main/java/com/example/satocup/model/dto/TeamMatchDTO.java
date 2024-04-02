@@ -15,15 +15,15 @@ import java.time.LocalTime;
 public class TeamMatchDTO {
 
 
-    @NotNull(message = "Team ID cannot be null")
     private Long teamId;
-    @NotNull(message = "Match ID cannot be null")
     private Long matchId;
+
     @NotBlank(message = "Team name cannot be blank")
     private String teamsName;
-    @NotBlank(message = "Time cannot be blank")
+    @NotNull(message = "Time cannot be null")
     private LocalTime time;
-    @NotBlank(message = "Date cannot be blank")
+    @NotNull(message = "Date cannot be null")
+    @FutureOrPresent(message = "Date must be in the future or present")
     private LocalDate date;
 
 
