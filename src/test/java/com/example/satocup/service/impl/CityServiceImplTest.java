@@ -98,6 +98,17 @@ class CityServiceImplTest {
     }
 
 
+    @Test
+    void deleteCity() {
+        Long cityId = 1L;
+
+        when(cityRepository.existsById(cityId)).thenReturn(true);
+
+        cityService.deleteCity(cityId);
+
+        verify(cityRepository).existsById(cityId);
+        verify(cityRepository).deleteById(cityId);
+    }
 
 
 }
