@@ -78,5 +78,19 @@ class TicketServiceImplTest {
         verify(ticketRepository).findAll();
         verify(modelMapper).map(ticket, TicketRespDTO.class);
     }
+    @Test
+    void getTicketFail() {
+        List<Ticket> tickets = Collections.singletonList(ticket);
+
+        when(ticketRepository.findAll()).thenReturn(tickets);
+        when(modelMapper.map(ticket, TicketRespDTO.class)).thenReturn(new TicketRespDTO());
+
+        List<TicketRespDTO> result = ticketService.getAllTickets();
+
+        assertFalse(result.isEmpty());
+        verify(ticketRepository).findAll();
+        verify(modelMapper).map(ticket, TicketRespDTO.class);
+    }
+
 
 }
