@@ -25,7 +25,6 @@ import java.util.List;
 public class Admin extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Admin ID cannot be blank")
     private Long adminId;
 
     @Override
